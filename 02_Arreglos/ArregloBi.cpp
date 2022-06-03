@@ -13,5 +13,5 @@ int main(){
 	cout<<"Los elementos de nota son: "<<notas[0][2];
 	
 	return 0; 
-	}
+	} 
 
