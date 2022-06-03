@@ -133,4 +133,4 @@ void mostrar(void){
 	}
 	cout<<"\n Fin de la lista";
 	getch(); 
-}
+} 
