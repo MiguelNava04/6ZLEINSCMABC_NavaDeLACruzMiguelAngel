@@ -36,14 +36,14 @@ struct dato{//lista
 
 //vamos a meter los metodos de acceso a la lista 
 
-int buscar(int d):
+int da;
+int buscar(int d);
 void insertar(int dat);
 void mostar(void);
 void borrar(void);
 void menu(void);
-
-//void guardar(void);
-//void cargar(void);
+void guardar(void);
+void cargar(void);
 
 main(){
 	menu();
@@ -55,7 +55,7 @@ void menu(void){
 	int opc, da;
 	do{
 		//imprimir el menu 
-		cout<<"Ejemplo para una lista compleja que carga los datos"endl<<;
+		cout<<"Ejemplo para una lista compleja que carga los datos";
 		cout<<"\n 1.-Buscar datos: ";
 		cout<<"\n 2.-Insertar datos: ";
 		cout<<"\n 3.-Mostrar datos: ";
@@ -84,12 +84,12 @@ void menu(void){
 		    	insertar(da);
 		    	break;
 		    case 3:
-		    	mostrar();
+		    	//mostrar();
 		    	break;
 		    case 4:
-		    	borrar();
+		    	//borrar();
 		    	break;
-		    case 5;
+		    case 5:
 		        //guardar();
 		        break;
 		    case 6:
@@ -134,3 +134,148 @@ void mostrar(void){
 	cout<<"\n Fin de la lista";
 	getch(); 
 } 
+
+//buscar
+int buscar(int d){
+	//si esta vacia 
+	if(!i){
+		cout<<"\n No hay datos en la lista";
+		getch();
+		return(0);
+	}
+	
+	//cuando si hay datos
+	p = i;
+	a = NULL;
+	//recorrer los valores de la lista
+	while(p->s && p->i < d){
+		a=p;
+		p=p->s;
+	}
+	return(p->i==d?1:0);
+}
+
+
+//insertar
+void insertar(int dat){
+	//si esta vacio
+	if(!i){
+		//hay que crear un nuevo nodo 
+		//porque se ingresa por primera vez 
+		i = new(dato);
+		i->s = NULL;
+		i->i = dat; 
+		return;
+	}
+	//saber si existe el dato
+	
+	if(buscar(dat)){
+		cout<<"\El dato Existe Llegale T_T";
+		getch();
+	    return;
+    }
+	/*
+	Imaginemos que existen varios valores
+	
+	nodo 1 = -2,  nodo 2 = 0, nodo 3 = 4  nodo 4 = 8
+	
+	insertar 4
+	
+	*/
+	
+	//rpimero creamos el nodo
+	e = new(dato);
+	
+	e->i=dat;
+	
+	if(p==i && p->s){
+		if(p->i < e->i){
+			//el ultimo dato
+			p->s =e;
+			e->i = NULL;
+		}else{
+			//enmedio
+			e->s =p;
+			i=e;
+		}
+		return;
+	}
+	if(p->s){ 
+		a->s = e;
+		e->s = p; 
+		return;
+		
+	}
+	
+	if(e->i > p->i){
+		e->s = NULL;
+		p->s = e;
+	}else{
+		a->s = e;
+		e->s = p;
+	}
+}
+
+void borrar(void){
+	cout<<"\n Ingresar el dato que deseas eliminar: \n";
+	cin>>da;
+	//debo de buscar el dato
+	if(buscar(da)){
+		//si esta
+		if(a)
+		a->s - p->s; //asignar el nodo donde 
+		else
+			//que botenga el valor del nodo 
+			i = p->s;
+			delete(p);
+		cout<<"Dato eliminado \n";
+	}else{
+		cout<<"\n Dato no se encuentra solo jutuito T_T \n";
+		getch();
+		
+	}
+}
+void guardar(void){
+
+    //archivo 
+    FILE *arch;
+    arch = fopen("Datos-a.txt", "w");
+    if(!i){
+        cout<<"\n No hay lista para guardar";
+        getch();
+        return;
+    }
+    p = i;
+    while(p){
+        fprintf(arch, "%i\n",p->i);
+        p = p->s;
+
+    }
+    cout<<"\n Archivo guardado";
+    fclose(arch);
+    getch();
+}
+
+
+void cargar(void){
+
+    int c, x;
+    FILE *arch;
+    arch = fopen("Datos-a.txt", "r");
+    if(!arch){
+        cout<<"\n No existe el archivo";
+        getch();
+        return;
+    }
+    do{
+        c = fscanf(arch, "%i\n", &x);
+        if(c!= EOF){
+            insertar(x);
+        }
+    }while(c!=EOF);
+    cout<<"\nArchivo cargado";
+    fclose(arch);
+    getch();
+}
+
+
